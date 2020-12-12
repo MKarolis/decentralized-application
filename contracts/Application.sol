@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.8.0;
+pragma experimental ABIEncoderV2;
 
 contract Application {
 
@@ -40,7 +41,31 @@ contract Application {
         _;
     }
 
-    function createFundraiser(string memory title, uint256 goal) public {
+    function getAllFundraisers() public view returns 
+        (uint32[] memory, address[] memory, string[] memory, uint256[] memory, uint256[] memory, FundraiserState[] memory) {
+        
+        uint32[] memory ids = new uint32[](fundraiserCount);
+        address[] memory adresses = new address[](fundraiserCount);
+        string[] memory titles = new string[](fundraiserCount);
+        uint256[] memory goals = new uint256[](fundraiserCount);
+        uint256[] memory raised = new uint256[](fundraiserCount);
+        FundraiserState[] memory states = new FundraiserState[](fundraiserCount);
+
+        for(uint32 i = 0; i < fundraiserCount; i++) {
+            Fundraiser memory raiser = fundraisers[i];
+            ids[i] = raiser.id;
+            adresses[i] = raiser.owner;
+            titles[i] = raiser.title;
+            goals[i] = raiser.goal;
+            raised[i] = raiser.raised;
+            states[i] = raiser.state;
+        }
+
+        return(ids, adresses, titles, goals, raised, states);
+    }
+
+
+    function createFundraiser(string memory title, uint256 goal) public returns(uint32) {
         require(goal > 0);
         require(bytes(title).length > 0);
 
@@ -50,6 +75,8 @@ contract Application {
 
         fundersByFundraiserId[fundraiserCount].fundersAddreses = [address(0)];
         fundraiserCount++;
+        
+        return(fundraiserCount - 1);
     }
 
     function supportFundraiser(uint32 fundraiserId) public payable activeFundraiser(fundraiserId) {

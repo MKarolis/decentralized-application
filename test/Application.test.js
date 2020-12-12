@@ -1,7 +1,4 @@
 const Application = artifacts.require('Application');
-const truffleAssert = require('truffle-assertions');
-// import web3 from 'web3';
-// import {assert, expect} from 'chai';
 
 contract('Application', (accounts) => {
 
@@ -45,7 +42,7 @@ contract('Application', (accounts) => {
             await application.createFundraiser('Title 2', web3.utils.toWei('2', 'Ether'), {from: accountTwo});
 
             const fundraisers = await application.getAllFundraisers();
-            
+
             assert.equal(fundraisers[0].length, 2);
             assert.equal(fundraisers[0][0], 0);
             assert.equal(fundraisers[0][1], 1);
@@ -59,7 +56,7 @@ contract('Application', (accounts) => {
             const fundsAfter = web3.utils.fromWei(await web3.eth.getBalance(accountTwo));
 
             assert.isTrue(fundsBefore - fundsAfter >= 1);
-            
+
             const accountValue = web3.utils.fromWei(await web3.eth.getBalance(application.address));
             assert.equal(accountValue, 1);
         });
@@ -74,7 +71,7 @@ contract('Application', (accounts) => {
 
             assert.isTrue(fundsBefore - fundsAfter < 0.1);
             assert.isTrue(fundsBefore - fundsAfter >= 0);
-            
+
             const accountValue = web3.utils.fromWei(await web3.eth.getBalance(application.address));
             assert.equal(accountValue, 0);
         });
@@ -87,10 +84,10 @@ contract('Application', (accounts) => {
             await application.completeTheFundraiser(0, {from: accountOne});
 
             const fundsAfter = web3.utils.fromWei(await web3.eth.getBalance(accountOne));
-            
+
             assert.isTrue(fundsAfter - fundsBefore > 0);
             assert.isTrue(fundsAfter - fundsBefore <= 1);
-            
+
             const accountValue = web3.utils.fromWei(await web3.eth.getBalance(application.address));
             assert.equal(accountValue, 0);
         });
@@ -113,7 +110,7 @@ contract('Application', (accounts) => {
             assert.isTrue(fundsBefore2 - fundsAfter2 >= 0);
             assert.isTrue(fundsBefore1 - fundsAfter1 < 0.1);
             assert.isTrue(fundsBefore1 - fundsAfter1 >= 0);
-            
+
             const accountValue = web3.utils.fromWei(await web3.eth.getBalance(application.address));
             assert.equal(accountValue, 0);
         });

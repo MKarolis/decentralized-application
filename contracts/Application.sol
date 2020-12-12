@@ -30,6 +30,23 @@ contract Application {
     }
     mapping(uint32 => FundersMapping) fundersByFundraiserId;
 
+    event FundraiserCreated(
+        uint32 id,
+        string title,
+        uint256 goal,
+        address owner
+    );
+
+    event FundraiserStateChanged(
+        uint32 id,
+        FundraiserState state
+    );
+
+    event FundraiserFundsChanged(
+        uint32 id,
+        uint256 raised
+    );
+
     modifier onlyOwner(uint32 fundraiserId) {
         require(msg.sender == fundraisers[fundraiserId].owner, "Operation only allowed for fundrayser's owner");
         _;
@@ -65,18 +82,21 @@ contract Application {
     }
 
 
-    function createFundraiser(string memory title, uint256 goal) public returns(uint32) {
+    function createFundraiser(string memory title, uint256 goal) public {
         require(goal > 0);
         require(bytes(title).length > 0);
 
-        fundraisers[fundraiserCount] = Fundraiser(
-            fundraiserCount, msg.sender, title, goal, 0, FundraiserState.ACTIVE
+        uint32 newId = fundraiserCount;
+        fundraisers[newId] = Fundraiser(
+            newId, msg.sender, title, goal, 0, FundraiserState.ACTIVE
         );
 
-        fundersByFundraiserId[fundraiserCount].fundersAddreses = [address(0)];
+        fundersByFundraiserId[newId].fundersAddreses = [address(0)];
         fundraiserCount++;
-        
-        return(fundraiserCount - 1);
+
+        emit FundraiserCreated(
+            newId, title, goal, msg.sender
+        );
     }
 
     function supportFundraiser(uint32 fundraiserId) public payable activeFundraiser(fundraiserId) {
@@ -89,6 +109,8 @@ contract Application {
             fundersByFundraiserId[fundraiserId].addressIndex[msg.sender] = fundersByFundraiserId[fundraiserId].fundersAddreses.length;
             fundersByFundraiserId[fundraiserId].fundersAddreses.push(msg.sender);
         }
+
+        emit FundraiserFundsChanged(fundraiserId, fundraisers[fundraiserId].raised);
     }
 
     function refundFundraiser(uint32 fundraiserId) public activeFundraiser(fundraiserId) {
@@ -110,11 +132,14 @@ contract Application {
         fundersByFundraiserId[fundraiserId].fundersAddreses.pop();
 
         msg.sender.transfer(funded);
+        emit FundraiserFundsChanged(fundraiserId, fundraisers[fundraiserId].raised);
     }
 
     function completeTheFundraiser(uint32 fundraiserId) public activeFundraiser(fundraiserId) onlyOwner(fundraiserId) {
         fundraisers[fundraiserId].state = FundraiserState.COMPLETED;
         msg.sender.transfer(fundraisers[fundraiserId].raised);
+
+        emit FundraiserStateChanged(fundraiserId, FundraiserState.COMPLETED);
     }
 
     function cancelTheFundraiser(uint32 fundraiserId) public activeFundraiser(fundraiserId) onlyOwner(fundraiserId) {
@@ -127,5 +152,7 @@ contract Application {
                 fundingsByUser[refundAddress].funded[fundraiserId]
             );
         }
+
+        emit FundraiserStateChanged(fundraiserId, FundraiserState.CANCELLED);
     }
 }

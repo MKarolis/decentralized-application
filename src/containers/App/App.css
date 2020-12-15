@@ -1,10 +1,31 @@
-.App {
+body {
+  color: #333;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.center-header {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+button {
+  box-shadow: none;
+  outline: none;
+  background-color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  color: #f50057;
+}
+
+button:hover {
+}
+
+button:focus {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {

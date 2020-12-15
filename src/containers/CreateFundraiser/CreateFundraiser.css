@@ -1,0 +1,20 @@
+.create-fundraiser-button {
+    padding: 15px 30px;
+    font-size: 20px;
+    box-shadow: none;
+    outline: none;
+    background-color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    color: #f50057;
+    border: 4px solid #f50057;
+    transition: 0.5s ease;
+    margin: 50px auto;
+    display: block;
+    min-width: max-content;
+    width: 50%;
+}
+
+.create-fundraiser-button:hover {
+    border-radius: 25px;
+}

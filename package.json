@@ -5,9 +5,11 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
+    "bootstrap": "^4.5.3",
     "chai": "^4.2.0",
     "chai-as-typed": "^0.2.1",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "truffle-assertions": "^0.9.2",

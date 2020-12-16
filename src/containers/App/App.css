@@ -32,6 +32,22 @@ button:focus {
   outline: none;
 }
 
+button:disabled {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: #B1C1C9 !important;
+  cursor: not-allowed;
+}
+
+.modal-content button {
+  font-size: 16px;
+}
+
+.fundraiser-controls button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
 .loading-overlay-root {
   overflow: auto;
   min-height: 100vh;
@@ -42,6 +58,17 @@ button:focus {
   color: #333;
 }
 
+.simple-button {
+  color: #333333;
+  border-color: #333333;
+  display: block;
+}
+
+.simple-button:hover {
+  color: #fff;
+  background-color: #333333;
+}
+
 .close-modal-button:hover {
   border-color: #333;
 }
@@ -49,6 +76,10 @@ button:focus {
 .submit-modal-button:hover {
   background-color: #f50057;
   color: #fff;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .modal-content {
@@ -64,6 +95,11 @@ button:focus {
 
 .modal-body {
   padding: 20px 50px;
+  font-size: 20px;
+}
+
+.modal-body p {
+  margin-bottom: 5px;
 }
 
 .modal-label {
@@ -102,6 +138,19 @@ button:focus {
 
 ._loading_overlay_overlay {
   background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.bold-highlight {
+  font-weight: 600;
+  color: #f50057;
+}
+
+.bold-highlight.grey {
+  color: #333333;
+}
+
+.toast {
+  flex-basis: unset;
 }
 
 @media(max-width: 576px) {

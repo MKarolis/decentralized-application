@@ -6,6 +6,7 @@ import CreateFundraiser from "../CreateFundraiser/CreateFundraiser";
 import LoadingOverlay from 'react-loading-overlay';
 import {FadeLoader} from "react-spinners";
 import FundraiserList from "../FundraisersList/FundraiserList";
+import {ToastsContainer, ToastsContainerPosition, ToastsStore} from "react-toasts";
 
 // TODO: Show unsupported page if no ethereum found
 
@@ -107,13 +108,16 @@ class App extends React.Component{
 
     render() {
         return (
-            <LoadingOverlay className='loading-overlay-root' active={this.state.isLoading} spinner={<FadeLoader color='#FFF'/>}>
-                <div className='app-container'>
-                    <h1 className='center-header'>Ethereum Fundraiser</h1>
-                    <CreateFundraiser/>
-                    <FundraiserList/>
-                </div>
-            </LoadingOverlay>
+            <>
+                <LoadingOverlay className='loading-overlay-root' active={this.state.isLoading} spinner={<FadeLoader color='#FFF'/>}>
+                    <div className='app-container'>
+                        <h1 className='center-header'>Ethereum Fundraiser</h1>
+                        <CreateFundraiser/>
+                        <FundraiserList/>
+                    </div>
+                </LoadingOverlay>
+                <ToastsContainer position={ToastsContainerPosition.TOP_CENTER} store={ToastsStore}/>
+            </>
         );
     }
 }

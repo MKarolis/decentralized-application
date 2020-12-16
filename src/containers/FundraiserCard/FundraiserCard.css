@@ -2,11 +2,7 @@
     margin-bottom: 20px;
     min-width: 100%;
     font-size: 18px;
-}
-
-.bold-highlight {
-    font-weight: 600;
-    color: #f50057;
+    border: 1px solid #f50057;
 }
 
 .view-fundraiser-button {

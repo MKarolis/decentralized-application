@@ -1,0 +1,1 @@
+export const etherValueOptions = ['Ether', 'Gwei', 'Wei'];

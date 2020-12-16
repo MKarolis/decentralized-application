@@ -6,18 +6,19 @@ import LoadingOverlay from "react-loading-overlay";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from'react-bootstrap/Form'
-
-const valueOptions = ['Ether', 'Gwei', 'Wei'];
+import {etherValueOptions} from "../../commons/Constants/contants";
+import ValueTypeSelect from "../../components/ValueTypeSelect/ValueTypeSelect";
+import {ToastsStore} from "react-toasts";
 
 const CreateFundraiser = () => {
     const [isShowing, setIsShowing] = useState(false);
-    const [valueType, setValueType] = useState(valueOptions[0]);
+    const [valueType, setValueType] = useState(etherValueOptions[0]);
     const [goalValue, setGoalValue] = useState('');
     const [title, setTitle] = useState('');
 
     const handleClose = () => {
         setIsShowing(false);
-        setValueType(valueOptions[0]);
+        setValueType(etherValueOptions[0]);
         setTitle('');
         setGoalValue('');
     };
@@ -49,9 +50,7 @@ const CreateFundraiser = () => {
                                 <input value={goalValue} onChange={e => setGoalValue(e.target.value)} placeholder="Goal..." className='modal-input'/>
                             </Col>
                             <Col sm={3} xs={5}>
-                                <Form.Control as="select" value={valueType} onChange={(e) => setValueType(e.target.value)}>
-                                    {valueOptions.map(opt => <option key={`cf-opt-${opt}`}>{opt}</option>)}
-                                </Form.Control>
+                                <ValueTypeSelect value={valueType} setValue={setValueType}/>
                             </Col>
                         </Row>
                     </Modal.Body>
@@ -59,7 +58,7 @@ const CreateFundraiser = () => {
                         <button className='close-modal-button' onClick={handleClose}>
                             Close
                         </button>
-                        <button className='submit-modal-button' onClick={() => {}}>
+                        <button className='submit-modal-button' onClick={() => ToastsStore.error('OOps')}>
                             Create a fundraiser
                         </button>
                     </Modal.Footer>

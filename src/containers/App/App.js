@@ -5,6 +5,7 @@ import Application from '../../abis/Application.json';
 import CreateFundraiser from "../CreateFundraiser/CreateFundraiser";
 import LoadingOverlay from 'react-loading-overlay';
 import {FadeLoader} from "react-spinners";
+import FundraiserList from "../FundraisersList/FundraiserList";
 
 // TODO: Show unsupported page if no ethereum found
 
@@ -110,6 +111,7 @@ class App extends React.Component{
                 <div className='app-container'>
                     <h1 className='center-header'>Ethereum Fundraiser</h1>
                     <CreateFundraiser/>
+                    <FundraiserList/>
                 </div>
             </LoadingOverlay>
         );

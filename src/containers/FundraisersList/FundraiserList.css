@@ -1,0 +1,6 @@
+/*TOOD: Remove if unneeded*/
+.equal {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}

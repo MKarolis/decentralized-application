@@ -39,7 +39,6 @@ button:focus {
 
 .close-modal-button {
   border-color: #fff;
-  border-radius: 25px;
   color: #333;
 }
 
@@ -50,11 +49,9 @@ button:focus {
 .submit-modal-button:hover {
   background-color: #f50057;
   color: #fff;
-  border-radius: 15px;
 }
 
 .modal-content {
-  /*border: 1px solid #f50057;*/
   border-radius: 0;
 }
 .modal-backdrop.show {

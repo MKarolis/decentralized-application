@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import Web3 from "web3";
 import Application from '../../abis/Application.json';
 import CreateFundraiser from "../CreateFundraiser/CreateFundraiser";
+import LoadingOverlay from 'react-loading-overlay';
+import {FadeLoader} from "react-spinners";
 
 // TODO: Show unsupported page if no ethereum found
 
@@ -97,14 +99,19 @@ class App2 extends Component {
 class App extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {
+            isLoading: false
+        };
     }
 
     render() {
         return (
-            <div className='app-container'>
-                <h1 className='center-header'>Ethereum Fundraiser</h1>
-                <CreateFundraiser/>
-            </div>
+            <LoadingOverlay className='loading-overlay-root' active={this.state.isLoading} spinner={<FadeLoader color='#FFF'/>}>
+                <div className='app-container'>
+                    <h1 className='center-header'>Ethereum Fundraiser</h1>
+                    <CreateFundraiser/>
+                </div>
+            </LoadingOverlay>
         );
     }
 }

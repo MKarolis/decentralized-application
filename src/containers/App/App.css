@@ -19,6 +19,10 @@ button {
   font-weight: 600;
   cursor: pointer;
   color: #f50057;
+  border: solid #f50057;
+  width: max-content;
+  padding: 5px 10px;
+  transition: 0.25s ease-in-out;
 }
 
 button:hover {
@@ -28,32 +32,83 @@ button:focus {
   outline: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.loading-overlay-root {
+  overflow: auto;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.close-modal-button {
+  border-color: #fff;
+  border-radius: 25px;
+  color: #333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.close-modal-button:hover {
+  border-color: #333;
+}
+
+.submit-modal-button:hover {
+  background-color: #f50057;
+  color: #fff;
+  border-radius: 15px;
+}
+
+.modal-content {
+  /*border: 1px solid #f50057;*/
+  border-radius: 0;
+}
+.modal-backdrop.show {
+  opacity: .3;
+}
+
+.modal-header {
+  border-color: #f50057;
+}
+
+.modal-body {
+  padding: 20px 50px;
+}
+
+.modal-label {
+  font-weight: 600;
+  margin: 0;
+  font-size: 20px;
+}
+
+.modal-input, .form-control {
+  color: #333;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 2px solid #4C4C4C;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.margin-top-s {
+  margin-top: 15px;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #333333;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border: 2px solid #4C4C4C;
+}
+
+.modal-footer {
+  border: none;
+}
+
+._loading_overlay_overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+@media(max-width: 576px) {
+  .modal-body {
+    padding: 10px 20px;
   }
 }

@@ -5,22 +5,49 @@ import {FadeLoader} from "react-spinners";
 import LoadingOverlay from "react-loading-overlay";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from'react-bootstrap/Form'
 import {etherValueOptions} from "../../commons/constants/contants";
 import ValueTypeSelect from "../../components/ValueTypeSelect/ValueTypeSelect";
 import {ToastsStore} from "react-toasts";
+import {toWei} from "web3-utils";
 
-const CreateFundraiser = () => {
+const CreateFundraiser = ({account, contract}) => {
     const [isShowing, setIsShowing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [valueType, setValueType] = useState(etherValueOptions[0]);
     const [goalValue, setGoalValue] = useState('');
     const [title, setTitle] = useState('');
 
     const handleClose = () => {
+        if (isLoading) {
+            return;
+        }
+
         setIsShowing(false);
         setValueType(etherValueOptions[0]);
         setTitle('');
         setGoalValue('');
+    };
+
+    const handleSubmit = async () => {
+        if (!title.trim()) {
+            ToastsStore.error('Could not create the fundraiser: title is required!');
+            return;
+        } else if (isNaN(goalValue) || Number(goalValue) <= 0) {
+            ToastsStore.error("Could not create the fundraiser: invalid goal value provided!");
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            await contract.methods.createFundraiser(title, toWei(String(Number(goalValue)), valueType))
+                .send({from: account});
+            ToastsStore.success("Fundraiser created successfully!");
+        } catch (err) {
+            ToastsStore.error("Could not create the fundraiser: Unexpected error");
+        }
+
+        setIsLoading(false);
+        setIsShowing(false);
     };
 
     return(
@@ -28,8 +55,8 @@ const CreateFundraiser = () => {
             <button onClick={() => setIsShowing(true)} className='create-fundraiser-button'>
                 Create a Fundraiser
             </button>
-            <Modal keyboard={false} backdrop='static' show={isShowing} size='lg' centered onHide={handleClose}>
-                <LoadingOverlay active={false} spinner={<FadeLoader color='#FFF'/>}>
+            <Modal keyboard={!isLoading} backdrop='static' show={isShowing} size='lg' centered onHide={handleClose}>
+                <LoadingOverlay active={isLoading} spinner={<FadeLoader color='#FFF'/>}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create a Fundraiser</Modal.Title>
                     </Modal.Header>
@@ -58,7 +85,7 @@ const CreateFundraiser = () => {
                         <button className='close-modal-button' onClick={handleClose}>
                             Close
                         </button>
-                        <button className='submit-modal-button' onClick={() => ToastsStore.error('OOps')}>
+                        <button className='submit-modal-button' onClick={handleSubmit}>
                             Create a fundraiser
                         </button>
                     </Modal.Footer>

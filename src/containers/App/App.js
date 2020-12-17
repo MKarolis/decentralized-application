@@ -8,145 +8,39 @@ import {FadeLoader} from "react-spinners";
 import FundraiserList from "../FundraisersList/FundraiserList";
 import {ToastsContainer, ToastsContainerPosition, ToastsStore} from "react-toasts";
 import {mapToFundraisers} from "../../commons/utils/utils";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 // TODO: Show unsupported page if no ethereum found
 
-// class App2 extends Component {
-//
-//     constructor(props) {
-//         super(props);
-//     }
-//
-//     async componentDidMount() {
-//         this.loadWeb3();
-//         this.connectToNetwork();
-//     }
-//
-//     loadWeb3 = async () => {
-//         if (window.ethereum) {
-//             window.web3 = new Web3(window.ethereum);
-//             await window.ethereum.enable()
-//         }
-//         else if (window.web3) {
-//             window.web3 = new Web3(window.web3.currentProvider)
-//         }
-//         else {
-//             window.alert('No ethereum provider found!')
-//         }
-//     };
-//
-//     connectToNetwork = async () => {
-//         const web3 = window.web3;
-//         const accounts = await web3.eth.getAccounts();
-//         console.log(accounts);
-//
-//         this.setState({account: accounts[0]});
-//
-//         const networkId = await web3.eth.net.getId();
-//         const networkData = Application.networks[networkId];
-//
-//         if (networkData) {
-//             const application = new web3.eth.Contract(Application.abi, networkData.address);
-//
-//             application.once('FundraiserCreated', (e, data) => console.log("FundraiserCreated EVENTY: ", data, e));
-//
-//             this.setState({application});
-//             const fundraiserCount = await application.methods.fundraiserCount().call();
-//             console.log("FUNDRAISER COUNT", fundraiserCount);
-//         } else {
-//            window.alert("Application not deployed on selected network!")
-//         }
-//     };
-//
-//     getAllFundraisers = () => {
-//         const { application } = this.state;
-//         application.methods.getAllFundraisers().call().then((value => console.log(value)))
-//     };
-//
-//     createAFundraiser = async () => {
-//         const { application, account } = this.state;
-//         // const results = await application.methods.createFundraiser('TITLE 2', 0).call();
-//         // console.log(results);
-//         application.methods.createFundraiser('TITLE 2', 100).send({from: account}, (val, e) => console.log('CALLBACK',e, val))
-//             .then(console.log)
-//             .catch(console.log);
-//     }
-//
-//     render() {
-//         return (
-//             <div className="App">
-//               <header className="App-header">
-//                 <p>
-//                   Edit <code>src/App.js</code> and save to relodeiu
-//                 </p>
-//                   <button onClick={() => this.getAllFundraisers()}>
-//                       CLICK TO GET ALL FUNDRAISERS
-//                   </button>
-//                   <button onClick={() => this.createAFundraiser()}>
-//                       CLICK TO CREATE A FUNDRAISER
-//                   </button>
-//                 <a
-//                     className="App-link"
-//                     href="https://reactjs.org"
-//                     target="_blank"
-//                     rel="noopener noreferrer"
-//                 >
-//                   Learn React
-//                 </a>
-//               </header>
-//             </div>
-//         );
-//     }
-// }
-
-// class App extends React.Component{
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             isLoading: false
-//         };
-//     }
-//
-//     render() {
-//         return (
-//             <>
-//                 <LoadingOverlay className='loading-overlay-root' active={this.state.isLoading} spinner={<FadeLoader color='#FFF'/>}>
-//                     <div className='app-container'>
-//                         <h1 className='center-header'>Ethereum Fundraiser</h1>
-//                         <CreateFundraiser/>
-//                         <FundraiserList/>
-//                     </div>
-//                 </LoadingOverlay>
-//                 <ToastsContainer position={ToastsContainerPosition.TOP_CENTER} store={ToastsStore}/>
-//             </>
-//         );
-//     }
-// }
-
 const App = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [account, setAccount] = useState(null);
     const [contract, setContract] = useState(null);
     const [fundraisers, setFundraisers] = useState([]);
+    const [error, setError] = useState(false);
 
     const loadWeb3 = async () => {
         if (window.ethereum) {
             window.web3 = new Web3(window.ethereum);
-            await window.ethereum.enable()
+            await window.ethereum.enable();
+            window.ethereum.on('accountsChanged', async () => {
+                const acc = await window.web3.eth.getAccounts();
+                setAccount(acc[0]);
+            })
         }
         else if (window.web3) {
             window.web3 = new Web3(window.web3.currentProvider)
         }
         else {
-            window.alert('No ethereum provider found!')
+            setError(true);
         }
     };
 
     const connectToNetwork = async () => {
         const web3 = window.web3;
-        const accounts = await web3.eth.getAccounts();
-        console.log(accounts);
+        if (!web3) return;
 
+        const accounts = await web3.eth.getAccounts();
         setAccount(accounts[0]);
 
         const networkId = await web3.eth.net.getId();
@@ -154,18 +48,54 @@ const App = () => {
 
         if (networkData) {
             const application = new web3.eth.Contract(Application.abi, networkData.address);
+            application.handleRevert = true;
 
-            application.once('FundraiserCreated', (e, data) => console.log("FundraiserCreated EVENTY: ", data, e));
+            application.events.FundraiserCreated(onFundraiserCreated);
+            application.events.FundraiserFundsChanged(onFundraiserFundsChanged);
+            application.events.FundraiserStateChanged(onFundraiserStateChanged);
 
             setContract(application);
-            const fundraiserCount = await application.methods.fundraiserCount().call();
+
             const allFundraisers = await application.methods.getAllFundraisers().call();
-            console.log("FUNDRAISER COUNT", fundraiserCount);
-            console.log("ALL FUNDRAISERS", mapToFundraisers(allFundraisers));
+
             setFundraisers(mapToFundraisers(allFundraisers));
+            setIsLoading(false);
         } else {
-            window.alert("Application not deployed on selected network!")
+            setError(true);
         }
+    };
+
+    const onFundraiserCreated = (error, data) => {
+        if (error) return;
+        const { returnValues } = data;
+        const newFundraiser = {
+            id: returnValues.id,
+            title: returnValues.title,
+            goal: returnValues.goal,
+            owner: returnValues.owner,
+            raised: '0',
+            state: 0,
+        };
+        console.log(data);
+        setFundraisers(fundraisers => [...fundraisers, newFundraiser]);
+    };
+
+    const onFundraiserFundsChanged = (error, data) => {
+        if (error) return;
+        const { returnValues: { id, raised } } = data;
+        const updatedFundraisersFn = (raisers) => raisers.map(
+            fundraiser => fundraiser.id === id ? {...fundraiser, raised: raised} : fundraiser
+        );
+        setFundraisers(updatedFundraisersFn);
+    };
+
+    const onFundraiserStateChanged = (error, data) => {
+        if (error) return;
+        const { returnValues: { id, state } } = data;
+        const updatedFundraisersFn = (raisers) => raisers.map(
+            fundraiser => fundraiser.id === id ? {...fundraiser, state: state} : fundraiser
+        );
+        setFundraisers(updatedFundraisersFn);
     };
 
     useEffect( () => {
@@ -174,11 +104,12 @@ const App = () => {
     },[]);
 
     return (
+        error ? <ErrorPage/> :
         <>
             <LoadingOverlay className='loading-overlay-root' active={isLoading} spinner={<FadeLoader color='#FFF'/>}>
                 <div className='app-container'>
                     <h1 className='center-header'>Ethereum Fundraiser</h1>
-                    <CreateFundraiser/>
+                    <CreateFundraiser account={account} contract={contract} />
                     <FundraiserList account={account} contract={contract} fundraisers={fundraisers}/>
                 </div>
             </LoadingOverlay>

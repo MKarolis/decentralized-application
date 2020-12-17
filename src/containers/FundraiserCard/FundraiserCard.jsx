@@ -11,8 +11,8 @@ const FundraiserCard = ({fundraiser, account, contract}) => {
     return (
         <Card className='fundraiser-card' body>
             <p><span className='bold-highlight'>Title: </span>{fundraiser.title}</p>
-            <p><span className='bold-highlight'>Goal: </span>{fromWei(fundraiser.goal, 'ether')} ETH</p>
-            <p><span className='bold-highlight'>Raised: </span>{fromWei(fundraiser.raised, 'ether')} ETH</p>
+            <p><span className='bold-highlight'>Goal: </span>{fromWei(String(fundraiser.goal), 'ether')} ETH</p>
+            <p><span className='bold-highlight'>Raised: </span>{fromWei(String(fundraiser.raised), 'ether')} ETH</p>
             <p><span className='bold-highlight'>Status: </span>{fundraiserStates[fundraiser.state]}</p>
             <button className='view-fundraiser-button' onClick={() => setShouldShowModal(true)}>
                 View

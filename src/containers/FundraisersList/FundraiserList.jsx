@@ -11,7 +11,7 @@ const FundraiserList = ({fundraisers, account, contract}) => {
             <Row>
                 {
                     fundraisers.map(fundraiser =>
-                        <Col md={6} sm={12}>
+                        <Col md={6} sm={12} key={`col-fl-${fundraiser.id}`}>
                             <FundraiserCard
                                 contract={contract}
                                 fundraiser={fundraiser}

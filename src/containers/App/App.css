@@ -96,6 +96,7 @@ button:disabled {
 .modal-body {
   padding: 20px 50px;
   font-size: 20px;
+  word-break: break-word;
 }
 
 .modal-body p {
@@ -151,10 +152,30 @@ button:disabled {
 
 .toast {
   flex-basis: unset;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 16px;
+  width: 100%;
+  align-content: center;
+  font-family: unset !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-error {
+  background-color: #f50200 !important;
+}
+
+.toast-success {
+  background-color: #009a00 !important;
 }
 
 @media(max-width: 576px) {
   .modal-body {
     padding: 10px 20px;
+  }
+
+  .toast {
+    font-size: 14px;
   }
 }

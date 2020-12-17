@@ -1,0 +1,11 @@
+.error-container {
+    margin: 20vh 10%;
+}
+
+.error-heading {
+    font-size: 7vh;
+}
+
+.error-container p {
+    font-size: 2.5vh;
+}

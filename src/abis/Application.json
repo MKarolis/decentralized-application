@@ -16816,6 +16816,82 @@
       "links": {},
       "address": "0x634c1Ee5650a5F118167965d421FBF714cB63954",
       "transactionHash": "0x134b12c1c9d9e93799edca957a80fdf4ece3207f60e9aa9a3f8abc268b55764f"
+    },
+    "42": {
+      "events": {
+        "0x5b31a794adc439f7ddfc03375dc4581cd5c3737bb5081730a1996668eae6e5e9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint32",
+              "name": "id",
+              "type": "uint32"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "goal",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "name": "FundraiserCreated",
+          "type": "event"
+        },
+        "0xb19d2db2dd5e069b2ba387a3543defc7a9352913a5f7d20c6a1c4e96db5a2ec8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint32",
+              "name": "id",
+              "type": "uint32"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "raised",
+              "type": "uint256"
+            }
+          ],
+          "name": "FundraiserFundsChanged",
+          "type": "event"
+        },
+        "0x112be91584be9435c5bef25eb6f08ab111140bdda046a26dfcf079b456df0b93": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint32",
+              "name": "id",
+              "type": "uint32"
+            },
+            {
+              "indexed": false,
+              "internalType": "enum Application.FundraiserState",
+              "name": "state",
+              "type": "uint8"
+            }
+          ],
+          "name": "FundraiserStateChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x7ca015e3be218cced0de78b72adf9eedd6e01203",
+      "transactionHash": "0x6e11418610ad5dcda060b3f9d648f53d787828db1fa3bfa2a1998472e91ae8d3"
     }
   },
   "schemaVersion": "3.3.2",

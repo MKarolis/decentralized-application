@@ -5,23 +5,24 @@ import Modal from "react-bootstrap/cjs/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ValueTypeSelect from "../../components/ValueTypeSelect/ValueTypeSelect";
-import {etherValueOptions} from "../../commons/Constants/contants";
+import {etherValueOptions, fundraiserStates} from "../../commons/constants/contants";
 import './ViewFundraiserModal.css';
+import {fromWei} from "web3-utils";
 
-const ViewFundraiserModal = ({show, closeModal}) => {
+const ViewFundraiserModal = ({show, closeModal, account, contract, fundraiser}) => {
     const [valueType, setValueType] = useState(etherValueOptions[0]);
 
     return(
         <Modal keyboard={false} backdrop='static' show={show} size='lg' centered onHide={closeModal}>
             <LoadingOverlay active={false} spinner={<FadeLoader color='#FFF'/>}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Fundraiser title</Modal.Title>
+                    <Modal.Title>{fundraiser.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p><span className='bold-highlight grey'>Created by: </span> Created By</p>
-                    <p><span className='bold-highlight grey'>Goal: </span> Created By</p>
-                    <p><span className='bold-highlight grey'>Raised: </span> Created By</p>
-                    <p><span className='bold-highlight grey'>State: </span> Created By</p>
+                    <p><span className='bold-highlight grey'>Created by: </span>{fundraiser.owner}</p>
+                    <p><span className='bold-highlight grey'>Goal: </span>{fromWei(fundraiser.goal, 'ether')} ETH</p>
+                    <p><span className='bold-highlight grey'>Raised: </span>{fromWei(fundraiser.raised, 'ether')} ETH</p>
+                    <p><span className='bold-highlight grey'>State: </span>{fundraiserStates[fundraiser.state]}</p>
                     <p className='modal-label'>Support the fundraiser:</p>
                     <Row className='align-items-center'>
                         <Col sm={6} xs={4}>

@@ -6,7 +6,7 @@ import LoadingOverlay from "react-loading-overlay";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from'react-bootstrap/Form'
-import {etherValueOptions} from "../../commons/Constants/contants";
+import {etherValueOptions} from "../../commons/constants/contants";
 import ValueTypeSelect from "../../components/ValueTypeSelect/ValueTypeSelect";
 import {ToastsStore} from "react-toasts";
 

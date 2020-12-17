@@ -1,5 +1,5 @@
 import React from "react";
-import {etherValueOptions} from "../../commons/Constants/contants";
+import {etherValueOptions} from "../../commons/constants/contants";
 import Form from "react-bootstrap/Form";
 
 const ValueTypeSelect = ({value, setValue}) => {

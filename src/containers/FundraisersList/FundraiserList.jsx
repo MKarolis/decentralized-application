@@ -4,19 +4,22 @@ import './FundraiserList.css';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const FundraiserList = () => {
+const FundraiserList = ({fundraisers, account, contract}) => {
+
     return (
         <div className='fundraiser-list'>
             <Row>
-                <Col md={6} sm={12}>
-                    <FundraiserCard/>
-                </Col>
-                <Col md={6} sm={12}>
-                    <FundraiserCard/>
-                </Col>
-                <Col md={6} sm={12}>
-                    <FundraiserCard/>
-                </Col>
+                {
+                    fundraisers.map(fundraiser =>
+                        <Col md={6} sm={12}>
+                            <FundraiserCard
+                                contract={contract}
+                                fundraiser={fundraiser}
+                                account={account}
+                            />
+                        </Col>
+                    )
+                }
             </Row>
         </div>
     );

@@ -11,13 +11,14 @@ The application can be used with local test-net or `Kovan` test-net.
 
 <h2>Setup</h2>
 Launching locally:
+
 - install truffle: `npm install -g truffle`
 - install dependencies: run `npm install`
-- run local test-net on Ganache, add respective config to `truffle-config.js`
-- migrate contracts: `truffle migrate`
-- interact using truffle console: `truffle console`
-- launch tests: `truffle test`
-- launch front-end: `npm start`
+-  run local test-net on Ganache, add respective config to `truffle-config.js`
+-  migrate contracts: `truffle migrate`
+-  interact using truffle console: `truffle console`
+-  launch tests: `truffle test`
+-  launch front-end: `npm start`
 
 <h5>Beware that running `truffle migrate` will reset existing `Kovan` config</h5>
 
@@ -26,16 +27,18 @@ The application is a simplified version of a decentralized fundraiser. It helps 
 fundraisers without any middlemen.
 
 <h5>Possible use cases:</h5>
+
 1. A creator creates a crowdfunding project
 2. Supporters can transfer funds to the crowdfunding project
 3. Supporters can refund their investment
 4. Creator can complete the project and receive funds
 5. Creator can cancel the project and refund all payers their funds
 
+
 The smart-contract was deployed to `Kovan` test-net. Check out the details below: 
-- Deployment transaction: [0x6e11418610ad5dcda060b3f9d648f53d787828db1fa3bfa2a1998472e91ae8d3](https://kovan.etherscan.io/tx/0x6e11418610ad5dcda060b3f9d648f53d787828db1fa3bfa2a1998472e91ae8d3)
-- Contract: [0x7ca015e3be218cced0de78b72adf9eedd6e01203](https://kovan.etherscan.io/address/0x7ca015e3be218cced0de78b72adf9eedd6e01203)
-- [Events](https://kovan.etherscan.io/address/0x7ca015e3be218cced0de78b72adf9eedd6e01203#events)
+-  Deployment transaction: [0x6e11418610ad5dcda060b3f9d648f53d787828db1fa3bfa2a1998472e91ae8d3](https://kovan.etherscan.io/tx/0x6e11418610ad5dcda060b3f9d648f53d787828db1fa3bfa2a1998472e91ae8d3)
+-  Contract: [0x7ca015e3be218cced0de78b72adf9eedd6e01203](https://kovan.etherscan.io/address/0x7ca015e3be218cced0de78b72adf9eedd6e01203)
+-  [Events](https://kovan.etherscan.io/address/0x7ca015e3be218cced0de78b72adf9eedd6e01203#events)
 
 Example logs:
 - [Fundraiser funds changed](https://kovan.etherscan.io/tx/0x0c5570e56a90720885d557ad216ec692f8d3d44cdeefeb5804f5f7d38db0b80b#eventlog)
